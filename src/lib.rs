@@ -7,7 +7,6 @@ use std::{
 
 mod solutions;
 
-#[derive(Debug)]
 pub struct Config {
     pub problem: String,
 }
@@ -47,10 +46,13 @@ fn open(filename: &str) -> Vec<Result<String, std::io::Error>> {
 
 fn solve_ba2f() {
     println!("Solving RandomizedMotifSearch (ba2f)");
-    let lines = open("inputs/ba2f.txt");
+    let filename = "inputs/ba2f.txt";
+    let lines = open(&filename);
     let kt: Vec<&str> = if let Ok(s) = &lines[0] {
         s.split_whitespace().collect()
-    } else {Vec::new()};
+    } else {
+        panic!("Couldn't parse values k, t from {filename}");
+    };
     let k = kt[0].parse::<usize>().unwrap();
     let t = kt[1].parse::<usize>().unwrap();
     let dna: Vec<String> = lines[1..lines.len()].into_iter()
@@ -64,6 +66,21 @@ fn solve_ba2f() {
 
 fn solve_ba2g() {
     println!("Solving GibbsSampler (ba2g)");
-    let lines = open("inputs/ba2g.txt");
-    
+    let filename = "inputs/ba2g.txt";
+    let lines = open(&filename);
+    let ktr: Vec<&str> = if let Ok(s) = &lines[0] {
+        s.split_whitespace().collect()
+    } else {
+        panic!("Couldn't parse values k, t, r from {filename}");
+    };
+    let k = ktr[0].parse::<usize>().unwrap();
+    let t = ktr[1].parse::<usize>().unwrap();
+    let r = ktr[2].parse::<usize>().unwrap();
+    let dna: Vec<String> = lines[1..lines.len()].into_iter()
+        .map(|r| r.as_ref().unwrap().to_string()).collect();
+    let (best_motifs, best_motifs_score) = solutions::ba2g::gibbs_sampler(dna, k, t, r);
+    for m in best_motifs {
+        println!("{m}");
+    }
+    println!("{best_motifs_score}");
 }
