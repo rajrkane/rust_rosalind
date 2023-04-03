@@ -127,7 +127,7 @@ pub fn randomized_motif_search(dna: Vec<String>, k: usize, t: usize) -> (Vec<Str
     let mut best_motifs = seed_best_motifs(&dna, k);
     let mut best_motifs_score = score(&best_motifs, &gen_consensus(&best_motifs));
 
-    for _j in 0..1500 {
+    for _j in 0..1000 {
         let mut motifs = Vec::with_capacity(t);
         for i in 0..t {
             motifs.push(profile_probable_kmer(&dna[i], k, &gen_profile(&best_motifs)));
